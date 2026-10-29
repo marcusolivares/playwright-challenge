@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Test-runner settings. Any value can be overridden on the command line: after `dotnet test`,
+  add a double-dash separator followed by Section.Key=value pairs, e.g.
+    Playwright.BrowserName=firefox Playwright.LaunchOptions.Headless=false NUnit.NumberOfTestWorkers=1
+  (XML comments cannot contain a double dash, so the full command is in README.md.)
+-->
+<RunSettings>
+  <NUnit>
+    <!-- Test fixtures (classes) run in parallel; tests inside one fixture run one after another. -->
+    <NumberOfTestWorkers>1</NumberOfTestWorkers>
+  </NUnit>
+  <Playwright>
+    <BrowserName>chromium</BrowserName>
+    <!-- Milliseconds web-first assertions (Expect(...)) keep retrying before failing. -->
+    <ExpectTimeout>10000</ExpectTimeout>
+    <LaunchOptions>
+      <Headless>false</Headless>
+    </LaunchOptions>
+  </Playwright>
+</RunSettings>

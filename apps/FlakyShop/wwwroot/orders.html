@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orders · Flaky Shop</title>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <h1>Orders</h1>
+  <button type="button" id="load">Load orders</button>
+  <p role="status" data-test="orders-status" class="muted"></p>
+  <table>
+    <thead>
+      <tr><th>Order</th><th>Total</th></tr>
+    </thead>
+    <tbody data-test="orders"></tbody>
+  </table>
+
+  <script src="/nav.js"></script>
+  <script>
+    const status = document.querySelector('[data-test="orders-status"]');
+    const body = document.querySelector('[data-test="orders"]');
+
+    document.getElementById('load').addEventListener('click', async () => {
+      body.innerHTML = '';
+      status.textContent = 'Loading orders…';
+      const orders = await api('/api/orders');
+      body.innerHTML = orders
+        .map(o => `<tr data-test="order-row"><td>#${o.number}</td><td>$${o.total.toFixed(2)}</td></tr>`)
+        .join('');
+      status.textContent = `${orders.length} orders`;
+    });
+  </script>
+</body>
+</html>

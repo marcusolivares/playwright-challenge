@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: Browser to run the tests on
+        type: choice
+        options: [chromium, firefox, webkit]
+        default: chromium
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (${{ inputs.browser || 'chromium' }})
+    runs-on: ubuntu-latest
+    env:
+      BROWSER: ${{ inputs.browser || 'chromium' }}
+      # Point the suite at another environment with repository variables, e.g.:
+      # E2E_BaseUrl: ${{ vars.E2E_BASE_URL }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - run: dotnet restore
+      - name: Check formatting
+        run: dotnet format --verify-no-changes --no-restore
+      # CI=true turns warnings into errors (see Directory.Build.props).
+      - run: dotnet build --no-restore --configuration Release
+      - name: Install Playwright browser
+        run: pwsh tests/PlaywrightChallenge.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps ${{ env.BROWSER }}
+      - name: Run tests
+        run: >
+          dotnet test --no-build --configuration Release
+          --filter "TestCategory!=Lab"
+          --logger "trx;LogFileName=results.trx"
+          --results-directory TestResults
+          -- Playwright.BrowserName=${{ env.BROWSER }} Playwright.LaunchOptions.Headless=true
+      - name: Upload results and failure artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-results-${{ env.BROWSER }}
+          path: |
+            TestResults
+            **/playwright-artifacts/**
+          if-no-files-found: ignore

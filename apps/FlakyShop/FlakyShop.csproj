@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    A tiny app under test for practising flaky-test diagnosis. Its backend is slow at random and keeps shared state in
+    memory, on purpose. Run it from the repository root with the command in apps/FlakyShop/README.md
+    (it listens on http://localhost:5080).
+  -->
+
+</Project>

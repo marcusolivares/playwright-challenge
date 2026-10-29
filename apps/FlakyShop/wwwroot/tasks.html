@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team tasks · Flaky Shop</title>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <h1>Team tasks</h1>
+  <p class="muted">Everyone on the team shares this list.</p>
+  <form id="new-task">
+    <label>New task <input name="title" required autocomplete="off"></label>
+    <button type="submit">Add task</button>
+  </form>
+  <ul class="plain" data-test="tasks"></ul>
+
+  <script src="/nav.js"></script>
+  <script>
+    const list = document.querySelector('[data-test="tasks"]');
+    const form = document.getElementById('new-task');
+
+    async function render() {
+      const tasks = await api('/api/tasks');
+      list.innerHTML = tasks
+        .map(t => `
+          <li class="row${t.done ? ' done' : ''}" data-test="task">
+            <span data-test="task-title">${escapeHtml(t.title)}</span>
+            ${t.done
+              ? '<span class="badge">Done</span>'
+              : `<button type="button" data-id="${t.id}">Complete</button>`}
+          </li>`)
+        .join('');
+    }
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      await api('/api/tasks', { method: 'POST', body: JSON.stringify({ title: form.title.value }) });
+      form.reset();
+      await render();
+    });
+
+    list.addEventListener('click', async event => {
+      const id = event.target.closest('button')?.dataset.id;
+      if (id) {
+        await api(`/api/tasks/${id}/complete`, { method: 'POST' });
+        await render();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

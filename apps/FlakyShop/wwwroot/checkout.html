@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Flaky Shop</title>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <h1>Checkout</h1>
+  <p class="muted">3 items · $66.48</p>
+  <fieldset>
+    <legend>Payment method</legend>
+    <div data-test="payment-methods"></div>
+  </fieldset>
+  <button type="button" id="place-order">Place order</button>
+  <p role="status" data-test="confirmation"></p>
+
+  <script src="/nav.js"></script>
+  <script>
+    const methods = document.querySelector('[data-test="payment-methods"]');
+    const confirmation = document.querySelector('[data-test="confirmation"]');
+
+    // The page is only wired up once the payment methods are known.
+    api('/api/payment-methods').then(names => {
+      methods.innerHTML = names
+        .map((name, i) => `<label><input type="radio" name="method" value="${name}"${i === 0 ? ' checked' : ''}> ${name}</label><br>`)
+        .join('');
+
+      document.getElementById('place-order').addEventListener('click', async () => {
+        const order = await api('/api/checkout', { method: 'POST' });
+        confirmation.textContent = `Order #${order.orderNumber} confirmed`;
+      });
+    });
+  </script>
+</body>
+</html>

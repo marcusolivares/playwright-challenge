@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search · Flaky Shop</title>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <h1>Search</h1>
+  <form role="search" id="search">
+    <label>Search products <input type="search" name="q" autocomplete="off"></label>
+    <button type="submit">Search</button>
+  </form>
+  <p class="muted" data-test="results-caption"></p>
+  <ul class="plain" data-test="results"></ul>
+
+  <script src="/nav.js"></script>
+  <script>
+    const form = document.getElementById('search');
+    const caption = document.querySelector('[data-test="results-caption"]');
+    const results = document.querySelector('[data-test="results"]');
+
+    function render(products, text) {
+      caption.textContent = text;
+      results.innerHTML = products
+        .map(p => `<li class="row" data-test="result">${escapeHtml(p.name)}</li>`)
+        .join('');
+    }
+
+    // Every response renders as soon as it arrives.
+    api('/api/products').then(products => render(products, 'All products'));
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const q = form.q.value.trim();
+      const products = await api(`/api/products?q=${encodeURIComponent(q)}`);
+      render(products, `${products.length} results for "${q}"`);
+    });
+  </script>
+</body>
+</html>

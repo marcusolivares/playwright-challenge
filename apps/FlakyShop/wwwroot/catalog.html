@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catalog · Flaky Shop</title>
+  <link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <h1>Catalog</h1>
+  <p class="muted">Sorted by popularity.</p>
+  <ul class="cards" data-test="products"></ul>
+
+  <h2>Cart</h2>
+  <ul class="plain" aria-label="Cart" data-test="cart"></ul>
+
+  <script src="/nav.js"></script>
+  <script>
+    const list = document.querySelector('[data-test="products"]');
+    const cart = document.querySelector('[data-test="cart"]');
+
+    api('/api/products').then(products => {
+      list.innerHTML = products
+        .map(p => `
+          <li class="card" data-test="product">
+            <h3 data-test="product-name">${escapeHtml(p.name)}</h3>
+            <p class="muted">$${p.price.toFixed(2)}</p>
+            <button type="button" data-name="${escapeHtml(p.name)}">Add to cart</button>
+          </li>`)
+        .join('');
+    });
+
+    list.addEventListener('click', event => {
+      const name = event.target.closest('button')?.dataset.name;
+      if (name) {
+        cart.insertAdjacentHTML('beforeend', `<li data-test="cart-item">${escapeHtml(name)}</li>`);
+      }
+    });
+  </script>
+</body>
+</html>

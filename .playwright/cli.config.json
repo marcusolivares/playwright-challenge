@@ -1,0 +1,4 @@
+{
+  "codegen": "csharp",
+  "testIdAttribute": "data-test"
+}
