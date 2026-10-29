@@ -8,4 +8,7 @@ public static class TestCategories
 
     /// <summary>Deliberately flaky practice tests against the local Flaky Shop app; excluded from CI.</summary>
     public const string Lab = "Lab";
+
+    /// <summary>Tests against third-party production sites we don't own; excluded from CI.</summary>
+    public const string External = "External";
 }

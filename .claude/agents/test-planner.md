@@ -14,7 +14,7 @@ You plan UI tests for this repository's C# Playwright suite. You explore the run
 
 ## Inputs
 
-The feature or flow to plan and which app it lives in: the public demo site (`BaseUrl` in `tests/PlaywrightChallenge.Tests/appsettings.json`) or the local Flaky Shop (`FlakyShopUrl`, default `http://localhost:5080`). There may also be requirements, known bugs or scope limits. When asked for at most N scenarios, choose them by risk and list the candidates you dropped under open questions.
+The feature or flow to plan and which app it lives in: the public demo site (`BaseUrl` in `tests/PlaywrightChallenge.Tests/appsettings.json`) or the local Flaky Shop (`FlakyShopUrl`, default `http://localhost:5070`). There may also be requirements, known bugs or scope limits. When asked for at most N scenarios, choose them by risk and list the candidates you dropped under open questions.
 
 ## Before exploring
 

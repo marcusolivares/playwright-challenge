@@ -39,7 +39,7 @@ jobs:
       - name: Run tests
         run: >
           dotnet test --no-build --configuration Release
-          --filter "TestCategory!=Lab"
+          --filter "TestCategory!=Lab&TestCategory!=External"
           --logger "trx;LogFileName=results.trx"
           --results-directory TestResults
           -- Playwright.BrowserName=${{ env.BROWSER }} Playwright.LaunchOptions.Headless=true

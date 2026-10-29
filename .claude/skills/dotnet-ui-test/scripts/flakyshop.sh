@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Start, stop, restart or check the Flaky Shop practice app (apps/FlakyShop) that the Lab tests run against.
 #   bash .claude/skills/dotnet-ui-test/scripts/flakyshop.sh status|start|stop|restart [port]
-# The port defaults to 5080, the FlakyShopUrl default. Restarting clears the app's shared in-memory state.
+# The port defaults to 5070, the FlakyShopUrl default. Restarting clears the app's shared in-memory state.
 set -uo pipefail
 
 command="${1:-status}"
-port="${2:-5080}"
+port="${2:-5070}"
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 url="http://localhost:${port}"
 log="${root}/.playwright-cli/flakyshop-${port}.log"

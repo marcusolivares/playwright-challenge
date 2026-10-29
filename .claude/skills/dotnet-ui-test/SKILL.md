@@ -96,16 +96,16 @@ CI=true dotnet build tests/PlaywrightChallenge.Tests   # turns warnings into err
 - Always pass `-- Playwright.LaunchOptions.Headless=true`; `.runsettings` opens a visible browser for humans.
 - `--filter "FullyQualifiedName~Name"` is a substring match: `~OrdersTests` runs the whole class.
 - A failed test leaves its trace and screenshot under `playwright-artifacts/`; read the trace with the playwright-trace-dotnet skill. Each failing run overwrites the previous files for that test.
-- CI excludes the Lab tests (`--filter "TestCategory!=Lab"`). The interview setup runs them in the `mcr.microsoft.com/playwright/dotnet:v1.49.0-noble` image; the command is in `apps/FlakyShop/README.md`.
+- CI excludes the Lab tests and the External ones, which run against third-party production sites (`--filter "TestCategory!=Lab&TestCategory!=External"`). The interview setup runs them in the `mcr.microsoft.com/playwright/dotnet:v1.49.0-noble` image; the command is in `apps/FlakyShop/README.md`.
 
 ## The Flaky Shop app
 
-Lab tests need `apps/FlakyShop` running at `FlakyShopUrl` (default `http://localhost:5080`). Manage it with:
+Lab tests need `apps/FlakyShop` running at `FlakyShopUrl` (default `http://localhost:5070`). Manage it with:
 
 ```bash
 bash .claude/skills/dotnet-ui-test/scripts/flakyshop.sh status    # or: start | stop | restart, optional port as 2nd argument
 ```
 
 - `restart` gives a fresh app, which clears the shared task list. It stops whatever listens on that port, including an instance someone started by hand; say so when you do it.
-- On another port: `flakyshop.sh start 5081`, then run tests with `E2E_FlakyShopUrl=http://localhost:5081 dotnet test ...`.
+- On another port: `flakyshop.sh start 5071`, then run tests with `E2E_FlakyShopUrl=http://localhost:5071 dotnet test ...`.
 - Its backend is slow at random and some endpoints change their results between calls, so one passing run proves nothing.

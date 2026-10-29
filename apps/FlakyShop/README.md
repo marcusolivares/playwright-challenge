@@ -3,7 +3,7 @@
 A small app with a deliberately flaky test suite, for practising the interview task: find the **root cause** of a
 flaky test and fix that, instead of adding retries.
 
-- The app (`apps/FlakyShop`) is an ASP.NET Core app on port **5080**. Its backend is slow at random, and some state is
+- The app (`apps/FlakyShop`) is an ASP.NET Core app on port **5070**. Its backend is slow at random, and some state is
   shared between all users, much like a real staging environment.
 - The tests are in `tests/PlaywrightChallenge.Tests/Ui/FlakyShop/` and the page objects in
   `src/PlaywrightChallenge.Framework/Pages/FlakyShop/`. Every test is flaky, and the bug can be in the test **or** in
@@ -13,10 +13,10 @@ flaky test and fix that, instead of adding retries.
 ## 1. Start the app
 
 ```powershell
-dotnet run --project apps/FlakyShop          # http://localhost:5080, Ctrl+C to stop
+dotnet run --project apps/FlakyShop          # http://localhost:5070, Ctrl+C to stop
 ```
 
-Open http://localhost:5080 and click through the pages. The team task list is kept in memory, so restarting the app
+Open http://localhost:5070 and click through the pages. The team task list is kept in memory, so restarting the app
 clears it.
 
 The app is not part of `PlaywrightChallenge.sln`. While it runs, Windows locks its `.exe`, and building the whole
@@ -38,7 +38,7 @@ In Docker, which is the interview setup (run from the repository root in PowerSh
 docker run --rm --ipc=host `
   -v "${PWD}:/work" -w /work `
   -v nuget-packages:/root/.nuget/packages `
-  -e E2E_FlakyShopUrl=http://host.docker.internal:5080 `
+  -e E2E_FlakyShopUrl=http://host.docker.internal:5070 `
   mcr.microsoft.com/playwright/dotnet:v1.49.0-noble `
   dotnet test tests/PlaywrightChallenge.Tests --filter "TestCategory=Lab" -- Playwright.LaunchOptions.Headless=true
 ```

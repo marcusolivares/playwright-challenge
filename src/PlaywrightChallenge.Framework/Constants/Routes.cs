@@ -14,4 +14,11 @@ public static class Routes
         public const string Checkout = "/checkout";
         public const string Search = "/search";
     }
+
+    /// <summary>Pages of the Linkin Park official site, relative to LinkinParkUrl.</summary>
+    public static class LinkinPark
+    {
+        public const string Home = "/";
+        public const string Music = "/music";
+    }
 }

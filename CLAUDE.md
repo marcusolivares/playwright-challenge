@@ -20,7 +20,7 @@ pwsh tests/PlaywrightChallenge.Tests/bin/Debug/net8.0/playwright.ps1 codegen --t
   - `Pages/`: one page object per screen, deriving from `BasePage`. Locators are get-only properties initialized from the primary-constructor `page`; actions are `...Async` methods; navigation goes through `NavigateAsync(route)`.
   - `Constants/`: `Routes` and `UiTexts`. No selectors there; selectors belong to page objects.
 - `tests/PlaywrightChallenge.Tests`: tests under `Ui/`, inheriting from `UiTestBase`; lifecycle code in `Infrastructure/`.
-- `apps/FlakyShop`: a local practice app (port 5080), kept out of the solution so a running instance never locks the build. Its tests (`Ui/FlakyShop/`, category `Lab`) and page objects (`Pages/FlakyShop/`) are **deliberately flaky**; don't fix them unless asked. Answers are in `apps/FlakyShop/SOLUTIONS.md`.
+- `apps/FlakyShop`: a local practice app (port 5070), kept out of the solution so a running instance never locks the build. Its tests (`Ui/FlakyShop/`, category `Lab`) and page objects (`Pages/FlakyShop/`) are **deliberately flaky**; don't fix them unless asked. Answers are in `apps/FlakyShop/SOLUTIONS.md`.
 - Versions are pinned to the interview Docker image (`playwright/dotnet:v1.49.0-noble`: .NET 8 SDK, Playwright 1.49.0). Don't upgrade them.
 
 ## Test conventions

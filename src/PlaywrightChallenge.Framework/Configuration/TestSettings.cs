@@ -11,9 +11,10 @@ public sealed class TestSettings
 
     /// <summary>
     /// Root of the local Flaky Shop practice app (apps/FlakyShop). From inside a Docker container use
-    /// http://host.docker.internal:5080, because localhost there is the container itself.
+    /// http://host.docker.internal:5070, because localhost there is the container itself.
     /// </summary>
-    public string FlakyShopUrl { get; init; } = "http://localhost:5080";
+    public string FlakyShopUrl { get; init; } = "http://localhost:5070";
+    public string LinkinParkUrl { get; init; } = "https://linkinpark.com";
 
     /// <summary>Attribute that <c>GetByTestId()</c> targets. Playwright's default is data-testid.</summary>
     public string TestIdAttribute { get; init; } = "data-testid";

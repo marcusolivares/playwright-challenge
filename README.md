@@ -58,7 +58,7 @@ docker run --rm --ipc=host -v "${PWD}:/work" -w /work mcr.microsoft.com/playwrig
 
 ## Flaky test lab
 
-`apps/FlakyShop` is a local app on port 5080 with one deliberately flaky test per root cause: waits, selectors, shared
+`apps/FlakyShop` is a local app on port 5070 with one deliberately flaky test per root cause: waits, selectors, shared
 test data, and two race conditions. Its tests carry the `Lab` category, and CI excludes them. See
 [apps/FlakyShop/README.md](apps/FlakyShop/README.md).
 

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 var builder = WebApplication.CreateBuilder(args);
 
 // 0.0.0.0 so a test container can reach the app through host.docker.internal. Override with --urls.
-builder.WebHost.UseUrls(builder.Configuration["urls"] ?? "http://0.0.0.0:5080");
+builder.WebHost.UseUrls(builder.Configuration["urls"] ?? "http://0.0.0.0:5070");
 
 var app = builder.Build();
 
